@@ -1,0 +1,18 @@
+.a_box{
+    width: 800px;
+    background-color: goldenrod;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.b_box{
+    width: 100%;
+    background-color: skyblue;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.c_box{
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: pink;
+}

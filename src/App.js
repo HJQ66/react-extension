@@ -1,10 +1,13 @@
+import { Fragment } from 'react';
 import './App.css';
-import Demo from './components/3_hooks';
+
+import Demo from './components/8_ErrorBoundary/Parent';
+
 function App(props) {
   return (
-    <div>
-      <Demo root = {props.root}/>
-    </div>
+    <Fragment>
+      <Demo root={props.root} />
+    </Fragment>
   );
 }
 

@@ -6,6 +6,7 @@ import React from 'react';
 //         count:0,
 //         num:1
 //     }
+//     myRef = React.createRef()
 //     //页面挂载时执行的生命周期钩子
 //     componentDidMount(){
 //         this.timer = setInterval(() => {
@@ -31,6 +32,10 @@ import React from 'react';
 //     changeName = () => {
 //         this.setState({name:'Jerry'})
 //     }
+//     show = () => {
+//         console.log(this.myRef.current.value);
+//         alert(`当前输入框的数字是：${this.myRef.current.value}`)
+//     }
 //     render(){
 //         const {name,count,num} = this.state
 //         return(
@@ -38,9 +43,11 @@ import React from 'react';
 //                 <h1>页面挂载后我每隔一秒自增+1：{num}</h1>
 //                 <h1>当前求和为：{count}</h1>
 //                 <h1>我的名字为：{name}</h1>
+//                 <input type="text" ref={this.myRef} placeholder='输入数字' /><br /><br />
 //                 <button onClick={this.add}>点我加1</button>
 //                 <button onClick={this.changeName}>点我改名</button>
 //                 <button onClick={this.unmount}>点我卸载组件</button>
+//                 <button onClick={this.show}>展示输入框的数字</button>
 //             </div>
 //         )
 //     }
@@ -50,16 +57,23 @@ import React from 'react';
 
 //函数式组件 函数式组件里面没有this
 export default function Demo(props) {
+    //state hook
     const [count,setCount] = React.useState(0)
     const [name,setName] = React.useState('jerry')
     const [num,setNum] = React.useState(0)
 
     React.useEffect(()=>{
+        //相当于类式组件里面componentDidMount
         let timer = setInterval(()=>{
             setNum(num => num + 1)
         },1000)
-        return clearInterval(timer)
-    },[])
+        //返回值是一个函数，相当于类式组件里面的componentWillUnmount钩子，组件将要卸载时执行这个
+        return ()=>{
+            clearInterval(timer)
+        }
+    })
+
+    const myRef = React.useRef()
     
     function add(){
         setCount(count => count+1)
@@ -71,14 +85,20 @@ export default function Demo(props) {
         const {root} = props
         root.unmount()
     }
+    function show() {
+        console.log(myRef);
+        alert(`当前输入框的数字是：${myRef.current.value}`)
+    }
   return (
     <div>
         <h1>页面挂载后我每隔一秒自增:{num}</h1>
         <h1>当前求和为：{count}</h1>
         <h1>我的名字为：{name}</h1>
+        <input type="text" ref={myRef} placeholder='输入数字'/><br /><br />
         <button onClick={add}>点我加1</button>
         <button onClick={changeName}>点我改名</button>
         <button onClick={unmount}>点我卸载</button>
+        <button onClick={show}>点我展示输入框数字</button>
     </div>
 
   )
